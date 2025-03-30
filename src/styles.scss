@@ -1,5 +1,5 @@
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/bootstrap';
 
 /* You can add global styles to this file, and also import other style files */
 .modal-holder {
@@ -16,6 +16,13 @@
     transform: scale(1)
   }
 }
+.row{
+  --bs-gutter-x:0 !important
+}
+.header-space{
+  height: 11vh;
+  background-color: var(--bs-gray-500);
+ }
 
 .carousel-item {
   transition: opacity 0.7s ease !important;

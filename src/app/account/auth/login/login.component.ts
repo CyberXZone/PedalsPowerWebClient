@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { AuthenticationService } from '../../../core/services/auth.service';
 import { AuthfakeauthenticationService } from '../../../core/services/authfake.service';
@@ -20,7 +20,7 @@ import { environment } from '../../../../environments/environment';
  */
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
   submitted = false;
   error = '';
   returnUrl: string;
@@ -29,12 +29,12 @@ export class LoginComponent implements OnInit {
   year: number = new Date().getFullYear();
 
   // tslint:disable-next-line: max-line-length
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService,
+  constructor(private formBuilder: UntypedFormBuilder, private route: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService,
     private authFackservice: AuthfakeauthenticationService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['admin@themesbrand.com', [Validators.required, Validators.email]],
+      email: ['example@email.com', [Validators.required, Validators.email]],
       password: ['123456', [Validators.required]],
     });
 
@@ -58,15 +58,20 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     } else {
-      if (environment.defaultauth === 'firebase') {
-        this.authenticationService.login(this.f.email.value, this.f.password.value).then((res: any) => {
-          this.router.navigate(['/dashboard']);
-        })
-          .catch(error => {
-            this.error = error ? error : '';
-          });
-      } else {
-        this.authFackservice.login(this.f.email.value, this.f.password.value)
+      // if (environment.defaultauth === 'firebase') {
+      //   // this.authenticationService.login(this.f.email.value, this.f.password.value).then((res: any) => {
+      //   //   this.router.navigate(['/dashboard']);
+      //   // })
+      //   //   .catch(error => {
+      //   //     this.error = error ? error : '';
+      //   //   });
+      // } else {
+        sessionStorage.setItem('token', 'tokensdsd');
+        sessionStorage.setItem('name', 'User Name');
+        sessionStorage.setItem('role', 'user');
+        this.router.navigate(['/home']);
+        return
+        this.authenticationService.login(this.f.email.value, this.f.password.value)
           .pipe(first())
           .subscribe(
             data => {
@@ -76,6 +81,6 @@ export class LoginComponent implements OnInit {
               this.error = error ? error : '';
             });
       }
-    }
+    // }
   }
 }
